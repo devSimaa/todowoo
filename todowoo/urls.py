@@ -18,8 +18,20 @@ from django.contrib import admin
 from django.urls import path
 from todo import views
 urlpatterns = [
+    # admin
     path('admin/', admin.site.urls),
 
     # auth
-    path('signup/', views.signup_usr, name='signup_usr')
+    path('signup/', views.signup_usr, name='signup_usr'),
+    path('login/', views.login_usr, name='login_usr'),
+    path('logout/', views.logout_usr, name='logout_usr'),
+
+
+    # todo
+    path('', views.home, name='home'),
+    path('create/', views.create_todo, name='create_todo'),
+    path('current/', views.currenttodos, name='currenttodos'),
+    path('todo/<int:todo_pk>', views.viewtodo, name='viewtodo'),
+
 ]
+
