@@ -1,5 +1,18 @@
-{%if user.is_authenticated %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  
+</head>
+<body>
+  {%if user.is_authenticated %}
 Logged in as {{ user.username }}
+<a href="{% url 'create_todo'%}">Создать</a>
+<a href="{% url 'currenttodos'%}">Текущие</a>
+<a href="{% url 'completedtodos'%}">Выполненые</a>
+
 
 <form action="{% url 'logout_usr'%}" method="POST">
     {% csrf_token %}
@@ -14,3 +27,5 @@ Logged in as {{ user.username }}
 {%endif%}
 
 {% block content %} {% endblock %}
+</body>
+</html>

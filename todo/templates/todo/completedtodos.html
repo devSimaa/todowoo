@@ -1,0 +1,25 @@
+
+{%extends 'todo/base.html'%}
+
+{%block content%}
+<h1>Completed</h1>
+
+<ul>
+  {%for i in todos%}
+
+  <li>
+    <a href="{% url 'viewtodo' i.id %}">
+      {%if i.important%} <b>{%endif%} 
+        {{i.title}}{%if i.important%} </b>{%endif%} 
+        {%if i.description%} - {{  i.description }}{%endif%}
+        <br>
+        {{ i.datacompleted|date:'M j Y H:i'}}
+        <br>
+        <br>
+    </a> 
+  </li>
+  {%endfor%}
+</ul>
+
+
+{%endblock%}

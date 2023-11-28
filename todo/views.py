@@ -5,6 +5,9 @@ from django.db import IntegrityError
 from django.contrib.auth import login, logout, authenticate
 from .forms import TodoForm
 from .models import ToDo
+from django.utils import timezone
+from django.contrib.auth.decorators import login_required
+
 def home(request):
     return render(request, 'todo/home.html')
 
@@ -34,18 +37,24 @@ def login_usr(request):
             login(request, user)
             return redirect('currenttodos')
 
-
+@login_required
 def logout_usr(request):
     if request.method == 'POST':
         logout(request)
         return redirect('home')
 
 # to do 
-
+@login_required
 def currenttodos(request):
-    todos = ToDo.objects.filter(user=request.user, datacompleted__isnull=True)
+    todos = ToDo.objects.filter(user=request.user, datacompleted__isnull=True).order_by('-created')
     return render(request, 'todo/currenttodos.html', {'todos':todos})
 
+@login_required
+def completedtodos(request):
+    todos = ToDo.objects.filter(user=request.user, datacompleted__isnull=False).order_by('-datacompleted')
+    return render(request, 'todo/completedtodos.html', {'todos':todos})
+
+@login_required
 def viewtodo(request, todo_pk):
     todo = get_object_or_404(ToDo, pk=todo_pk, user=request.user)
     form = TodoForm(instance=todo)
@@ -61,8 +70,22 @@ def viewtodo(request, todo_pk):
         except ValueError:
             return render(request, 'todo/view.html', {'form':todo, 'error':'неверно заполненое поле'})
 
+@login_required
+def completetodo(request, todo_pk):
+    todo = get_object_or_404(ToDo, pk=todo_pk, user=request.user)
+    if request.method == 'POST':
+        todo.datacompleted = timezone.now()
+        todo.save()
+        return redirect('currenttodos')
 
-
+@login_required
+def deletetodo(request, todo_pk):
+    todo = get_object_or_404(ToDo, pk=todo_pk, user=request.user)
+    if request.method == 'POST':
+        todo.delete()
+        return redirect('currenttodos')
+    
+@login_required
 def create_todo(request):
     if request.method == 'GET':
         return render(request, 'todo/createTodo.html', {'form':TodoForm()})
