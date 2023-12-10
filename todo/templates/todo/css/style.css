@@ -1,0 +1,18 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    background: url(bjg.jpg) no-repeat;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.login_usr{
+    width: 420px;
+    background: purple;
+    color: white;
+
+}

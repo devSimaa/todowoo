@@ -3,11 +3,11 @@
 
 {%block content%}
 <h1>Completed</h1>
-
-<ul>
+<div class="container text-center my-1">
+<ul class="list-group">
   {%for i in todos%}
 
-  <li>
+  <li class="list-group-item list-group-item-action">
     <a href="{% url 'viewtodo' i.id %}">
       {%if i.important%} <b>{%endif%} 
         {{i.title}}{%if i.important%} </b>{%endif%} 
@@ -20,6 +20,6 @@
   </li>
   {%endfor%}
 </ul>
-
+</div>
 
 {%endblock%}
